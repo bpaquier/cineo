@@ -1,0 +1,150 @@
+$breakpoint-medium: 600px;
+
+.registerbox {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  width: 428px;
+  height: 377px;
+  background-color: $color-background-register;
+  border-radius: 10px;
+  @media (max-width: $breakpoint-medium) {
+    width: 280px;
+    height: 280px;
+  }
+  &__nav {
+    width: 428px;
+    height: 51px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $color-neutral-light;
+    border-radius: 10px 10px 0px 0px;
+    @media (max-width: $breakpoint-medium) {
+      width: 280px;
+      height: 60px;
+    }
+    &--signin {
+      width: 214px;
+      height: 51px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: $color-primary;
+      border-radius: 10px 10px 0px 0px;
+      box-shadow: 3px 0px 5px rgba(0, 0, 0, 0.2);
+      color: $color-neutral-light;
+      @media (max-width: $breakpoint-medium) {
+        font-size: 14px;
+      }
+    }
+    &--signup {
+      width: 214px;
+      height: 51px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #afafaf;
+      cursor: pointer;
+      &:hover {
+        color: $color-neutral-dark;
+      }
+    }
+    @media (max-width: $breakpoint-medium) {
+      font-size: 14px;
+    }
+  }
+  &__content {
+    width: 428px;
+    height: 326px;
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @media (max-width: $breakpoint-medium) {
+      width: 270px;
+      justify-content: center;
+      padding-top: 10px;
+    }
+  }
+  &__input {
+    margin-bottom: 40px;
+    width: 300px;
+    @media (max-width: $breakpoint-medium) {
+      width: 200px;
+      height: 20px;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    &::placeholder {
+      opacity: 0.5;
+      font-family: poppins;
+      font-size: 16px;
+      font-weight: 300;
+    }
+  }
+  &__withoutlogin {
+    color: $color-neutral-dark;
+    font-size: 14px;
+    font-weight: 300;
+    text-decoration: underline;
+    cursor: pointer;
+    @media (max-width: $breakpoint-medium) {
+      font-size: 12px;
+      color: $color-neutral-dark;
+    }
+  }
+}
+
+.registerbox__withoutlogin:hover {
+  text-decoration: none;
+}
+
+.submit__sign-in {
+  font-family: poppins;
+  padding: 10px 30px 10px 30px;
+  font-weight: 600;
+  border-radius: 5px;
+  margin-bottom: 6px;
+  color: $color-neutral-light;
+  background-color: $color-neutral;
+  border: none;
+
+  &:disabled {
+    opacity: 0.5;
+
+    &:hover {
+      cursor: default;
+      background-color: $color-neutral;
+    }
+  }
+
+  &:hover {
+    background-color: $color-primary;
+    border: none;
+    cursor: pointer;
+  }
+  @media (max-width: $breakpoint-medium) {
+    font-size: 14px;
+    width: 100px;
+    height: 30px;
+    border-radius: 3px;
+    color: $color-neutral-light;
+    font-family: poppins;
+    font-weight: 600;
+    background-color: #515151;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+}
+
+.wrongLogin {
+  position: absolute;
+  color: red;
+  top: 58%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9rem;
+  font-weight: 400;
+}

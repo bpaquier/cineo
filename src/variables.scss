@@ -1,0 +1,21 @@
+@mixin large {
+  @media (min-width: 1100px) {
+    @content;
+  }
+}
+
+$color-neutral-light: #e3e3e3;
+$color-neutral-dark: #0e0e0e;
+$color-primary: #16a3cf;
+$color-neutral: #515151;
+$color-background-register: #f2f2f2;
+
+body {
+  font-family: poppins;
+  background-color: $color-neutral-dark;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

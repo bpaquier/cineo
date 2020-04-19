@@ -1,0 +1,68 @@
+@keyframes sliding-coming-soon {
+  0% {
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  }
+  99% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  100% {
+    clip-path: none;
+  }
+}
+
+.coming-soon {
+  margin-top: 50px;
+  width: 100%;
+  display: flex;
+  color: $color-neutral-light;
+  clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  position: relative;
+
+  &.visible {
+    animation: sliding-coming-soon 1.5s ease forwards;
+  }
+
+  &__btn {
+    visibility: hidden;
+    opacity: 0;
+    border-radius: 5px;
+    display: inline-block;
+    position: relative;
+    background-color: $color-primary;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    top: -200px;
+    padding: 10px 15px;
+  }
+
+  &__item {
+    margin: 0 2px;
+
+    h2 {
+      display: flex;
+      justify-content: center;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 23px;
+      margin-bottom: 20px;
+
+      em {
+        color: $color-primary;
+      }
+    }
+
+    img {
+      width: 100%;
+    }
+
+    &:hover {
+      .coming-soon__btn {
+        visibility: visible;
+        opacity: 1;
+        font-weight: 400;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9);
+      }
+    }
+  }
+}
