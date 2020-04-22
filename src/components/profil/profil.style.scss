@@ -134,7 +134,7 @@
       position: absolute;
       display: flex;
       align-items: center;
-      left: 160px;
+      left: 110px;
       background-color: $color-neutral-dark;
 
       & p:hover {
@@ -312,4 +312,16 @@
       margin-top: 48px;
     }
   }
+}
+
+.second__information {
+  position: relative;
+}
+
+.warning_mail {
+  position: absolute;
+  top: 180px;
+  left: 110px;
+  color: red;
+  font-weight: 300;
 }

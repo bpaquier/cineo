@@ -1,5 +1,6 @@
 import React from 'react';
 import { SessionContextConsumer } from '../../../context/session.context';
+import { Link, Redirect } from 'react-router-dom';
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export default class SignUp extends React.Component {
       isPasswordvalid: true,
     };
   }
-  handleClick = () => this.props.click();
+  /* handleClick = () => this.props.click(); */
 
   handleChangeMail = (e) => {
     this.setState({ mailValue: e.target.value });
@@ -77,16 +78,6 @@ export default class SignUp extends React.Component {
       isPasswordvalid,
     } = this.state;
 
-    /* console.log(
-      !isMailConfirmationValid &&
-        !isPasswordvalid &&
-        mailValue.length === 0 &&
-        passwordValue.length === 0 &&
-        lastnameValue.length === 0 &&
-        
-    ); */
-    console.log(!isMailConfirmationValid);
-
     return (
       <SessionContextConsumer>
         {({ signUp, changeWarningStates, mailAlreadyExist }) => (
@@ -94,7 +85,7 @@ export default class SignUp extends React.Component {
             <div className='signup__nav'>
               <div
                 className='signup__nav--signin'
-                onClick={() => this.handleClick()}
+                /* onClick={() => this.handleClick()} */
               >
                 <p>Se connecter</p>
               </div>
@@ -171,7 +162,7 @@ export default class SignUp extends React.Component {
                       required
                     ></input>
                     {!isMailConfirmationValid && (
-                      <div className='warning'>Adresses mail différentes</div>
+                      <div className='warning'>Adresses mails différentes</div>
                     )}
                   </div>
                   <div className='form__right__password form__component'>
@@ -219,6 +210,11 @@ export default class SignUp extends React.Component {
                   Cette adresse mail est déjà ratachée à un compte
                 </span>
               )}
+              <Link to='/'>
+                <p className='registerbox__withoutlogin'>
+                  Accéder au site sans compte
+                </p>
+              </Link>
             </form>
           </div>
         )}

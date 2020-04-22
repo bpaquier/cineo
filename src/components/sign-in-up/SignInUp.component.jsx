@@ -7,17 +7,18 @@ export default class SignInUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      login: true,
+      login: false,
     };
   }
 
-  signInClick = () => {
+  // SIGN IN DISABLE BECAUSE NO MORE BACK END
+  /* signInClick = () => {
     this.setState({ login: false });
   };
 
   signUpClick = () => {
     this.setState({ login: true });
-  };
+  }; */
 
   render() {
     const { login } = this.state;

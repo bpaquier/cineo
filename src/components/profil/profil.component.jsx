@@ -85,6 +85,7 @@ export default class Profil extends React.Component {
           changeLastName,
           changeFirstName,
           changeMail,
+          isNewMailValid,
         }) => {
           if (!user) return null;
           return (
@@ -262,6 +263,9 @@ export default class Profil extends React.Component {
                               annuler
                             </p>
                           </form>
+                        )}
+                        {!isNewMailValid && (
+                          <p className='warning_mail'>Nouveau mail invalide</p>
                         )}
                       </div>
                     </div>

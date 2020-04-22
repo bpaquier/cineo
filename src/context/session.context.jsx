@@ -10,6 +10,7 @@ export class SessionContextProvider extends Component {
       mailAlreadyExist: false,
       wrongLogin: false,
       movieList: null,
+      isNewMailValid: true,
     };
   }
 
@@ -24,7 +25,9 @@ export class SessionContextProvider extends Component {
     }
   }
 
-  signIn = (mail, password, e) => {
+  // SIGN IN TUNED OFF BECAUSE NO MORE BACKEND GESTION
+
+  /* signIn = (mail, password, e) => {
     e.preventDefault();
     let infosUsers = {};
     infosUsers.mail = mail;
@@ -73,20 +76,23 @@ export class SessionContextProvider extends Component {
           this.setState({ wrongLogin: true });
         }
       });
-  };
+  }; */
 
   signUp = (name, firstName, mail, password, pseudo, e) => {
     e.preventDefault();
 
     let data = {};
 
-    data.name = name;
-    data.firstName = firstName;
+    data.lastName = name;
+    data.name = firstName;
     data.mail = mail;
     data.password = password;
     data.pseudo = pseudo;
+    data.signUpDate = new Date();
+    this.setState({ user: data });
+    localStorage.setItem('user', JSON.stringify(data));
 
-    fetch('http://18.191.118.60:80/signUp.php', {
+    /* fetch('http://18.191.118.60:80/signUp.php', {
       method: 'POST',
       body: JSON.stringify(data),
     })
@@ -108,7 +114,7 @@ export class SessionContextProvider extends Component {
           this.setState({ user: userLoged });
           localStorage.setItem('user', JSON.stringify(userLoged));
         }
-      });
+      }); */
   };
 
   changeWarningStates = () => {
@@ -116,7 +122,11 @@ export class SessionContextProvider extends Component {
   };
 
   deleteUser = () => {
-    let data = {};
+    this.setState({ user: null, movieList: null });
+    localStorage.removeItem('user');
+    localStorage.removeItem('moviesList');
+
+    /* let data = {};
     data.mail = this.state.user.mail;
 
     fetch('http://18.191.118.60:80/deleteUser.php', {
@@ -130,7 +140,7 @@ export class SessionContextProvider extends Component {
         this.setState({ user: null });
         localStorage.removeItem('user');
         localStorage.removeItem('moviesList');
-      });
+      }); */
   };
 
   logOut = () => {
@@ -140,7 +150,19 @@ export class SessionContextProvider extends Component {
   };
 
   addMovie = (filmId) => {
-    let data = {};
+    let moviesList;
+    if (localStorage.getItem('moviesList')) {
+      moviesList = [...JSON.parse(localStorage.getItem('moviesList'))];
+    } else {
+      moviesList = [];
+    }
+
+    let newList = [...moviesList, filmId];
+
+    this.setState({ movieList: newList });
+    localStorage.setItem('moviesList', JSON.stringify(newList));
+
+    /* let data = {};
     data.idUser = this.state.user.id;
     data.idFilm = filmId.toString();
 
@@ -158,11 +180,18 @@ export class SessionContextProvider extends Component {
         });
         this.setState({ movieList: movieList });
         localStorage.setItem('moviesList', JSON.stringify(movieList));
-      });
+      }); */
   };
 
   deleteMovie = (id_movie) => {
-    let data = {};
+    const moviesList = [...this.state.movieList];
+    const index = moviesList.findIndex((el) => el === id_movie);
+    moviesList.splice(index, 1);
+
+    this.setState({ movieList: moviesList });
+    localStorage.setItem('moviesList', JSON.stringify(moviesList));
+
+    /* let data = {};
     data.movieId = id_movie.toString();
     data.userId = this.state.user.id;
 
@@ -181,11 +210,16 @@ export class SessionContextProvider extends Component {
         });
         this.setState({ movieList: movieList });
         localStorage.setItem('moviesList', JSON.stringify(movieList));
-      });
+      }); */
   };
 
   changePseudo = (pseudo) => {
-    let data = {};
+    const initialUser = JSON.parse(localStorage.getItem('user'));
+    initialUser.pseudo = pseudo;
+
+    localStorage.setItem('user', JSON.stringify(initialUser));
+    this.setState({ user: initialUser });
+    /* let data = {};
     data.id = this.state.user.id;
     data.value = pseudo;
 
@@ -207,11 +241,16 @@ export class SessionContextProvider extends Component {
         };
         this.setState({ user: userLoged });
         localStorage.setItem('user', JSON.stringify(userLoged));
-      });
+      }); */
   };
 
   changeLastName = (lastName) => {
-    let data = {};
+    const initialUser = JSON.parse(localStorage.getItem('user'));
+    initialUser.lastName = lastName;
+
+    localStorage.setItem('user', JSON.stringify(initialUser));
+    this.setState({ user: initialUser });
+    /* let data = {};
     data.id = this.state.user.id;
     data.value = lastName;
 
@@ -234,11 +273,16 @@ export class SessionContextProvider extends Component {
         };
         this.setState({ user: userLoged });
         localStorage.setItem('user', JSON.stringify(userLoged));
-      });
+      }); */
   };
 
   changeFirstName = (firstName) => {
-    let data = {};
+    const initialUser = JSON.parse(localStorage.getItem('user'));
+    initialUser.name = firstName;
+
+    localStorage.setItem('user', JSON.stringify(initialUser));
+    this.setState({ user: initialUser });
+    /* let data = {};
     data.id = this.state.user.id;
     data.value = firstName;
 
@@ -260,11 +304,22 @@ export class SessionContextProvider extends Component {
         };
         this.setState({ user: userLoged });
         localStorage.setItem('user', JSON.stringify(userLoged));
-      });
+      }); */
   };
 
   changeMail = (mail) => {
-    let data = {};
+    const initialUser = JSON.parse(localStorage.getItem('user'));
+    initialUser.mail = mail;
+
+    if (/^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,6}$/i.test(mail)) {
+      localStorage.setItem('user', JSON.stringify(initialUser));
+      this.setState({ user: initialUser });
+
+      this.setState({ isNewMailValid: true });
+    } else {
+      this.setState({ isNewMailValid: false });
+    }
+    /* let data = {};
     data.id = this.state.user.id;
     data.value = mail;
 
@@ -286,7 +341,7 @@ export class SessionContextProvider extends Component {
         };
         this.setState({ user: userLoged });
         localStorage.setItem('user', JSON.stringify(userLoged));
-      });
+      }); */
   };
 
   render() {

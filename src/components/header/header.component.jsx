@@ -58,7 +58,7 @@ export default function Header() {
               </svg>
               {user === null ? (
                 <Link to='/sign-in-up'>
-                  <p>Se connecter</p>
+                  <p>Créer un compte</p>
                 </Link>
               ) : (
                 <Link to='/profil'>

@@ -32,21 +32,21 @@ export default class MyListPage extends React.Component {
                   })}
                 </div>
               </div>
-              <div className='record__section'>
-                <div className='myRecords'>
-                  <Title content='Tous mes enregistrements' />
-                  <div className='inputContent'>
-                    <div className='inputTitle'>Trier par :</div>
-                    <div className='input'>Catégories</div>
+              {movieList !== null && (
+                <div className='record__section'>
+                  <div className='myRecords'>
+                    <Title content='Tous mes enregistrements' />
+                    <div className='inputContent'>
+                      <div className='inputTitle'>Trier par :</div>
+                      <div className='input'>Catégories</div>
+                    </div>
                   </div>
-                </div>
-                {movieList !== null && (
                   <div className='records'>
                     {data
-                      .filter((el) => movieList.includes(el.imdbID.toString()))
-                      .map((el) => {
+                      .filter((el) => movieList.includes(el.imdbID))
+                      .map((el, i) => {
                         return (
-                          <div className='img-container'>
+                          <div key={i} className='img-container'>
                             <Link to={`/player?id=${el.imdbID}`}>
                               <img src={el.coverUrl} alt='movie cover'></img>
                             </Link>
@@ -58,8 +58,8 @@ export default class MyListPage extends React.Component {
                         );
                       })}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
             <Footer />
           </div>
