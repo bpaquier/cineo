@@ -25,12 +25,6 @@ export class SessionContextProvider extends Component {
     }
   }
 
-  testApi() {
-    fetch('https://bastienpaquier.masselab.com/addFilm.php')
-      .then((rep) => rep.json())
-      .then((hello) => console.log(hello));
-  }
-
   // SIGN IN TUNED OFF BECAUSE NO MORE BACKEND GESTION
 
   /* signIn = (mail, password, e) => {
@@ -363,7 +357,6 @@ export class SessionContextProvider extends Component {
       changePseudo: this.changePseudo,
       changeLastName: this.changeLastName,
       changeFirstName: this.changeFirstName,
-      testApi: this.testApi,
       changeMail: this.changeMail,
     };
 
