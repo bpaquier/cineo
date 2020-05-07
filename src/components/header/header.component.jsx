@@ -7,7 +7,7 @@ export default function Header() {
   let location = useLocation();
   return (
     <SessionContextConsumer>
-      {({ user, logOut }) => (
+      {({ user, logOut, testApi }) => (
         <header className='header'>
           <ul className='header__nav nav'>
             <li id='logo'>
@@ -56,6 +56,7 @@ export default function Header() {
               <svg viewBox='0 0 26 26'>
                 <path d='M13 0C5.85 0 0 5.85 0 13C0 20.15 5.85 26 13 26C20.15 26 26 20.15 26 13C26 5.85 20.15 0 13 0ZM13 3.9C15.21 3.9 16.9 5.59 16.9 7.8C16.9 10.01 15.21 11.7 13 11.7C10.79 11.7 9.1 10.01 9.1 7.8C9.1 5.59 10.79 3.9 13 3.9ZM13 22.36C9.75 22.36 6.89 20.6701 5.2 18.2C5.2 15.6 10.4 14.17 13 14.17C15.6 14.17 20.8 15.6 20.8 18.2C19.11 20.67 16.25 22.36 13 22.36Z' />
               </svg>
+              <button onClick={() => testApi()}>ESSAI API</button>
               {user === null ? (
                 <Link to='/sign-in-up'>
                   <p>Créer un compte</p>
