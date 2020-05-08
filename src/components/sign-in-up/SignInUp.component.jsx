@@ -11,14 +11,13 @@ export default class SignInUp extends React.Component {
     };
   }
 
-  // SIGN IN DISABLE BECAUSE NO MORE BACK END
-  /* signInClick = () => {
+  signInClick = () => {
     this.setState({ login: false });
   };
 
   signUpClick = () => {
     this.setState({ login: true });
-  }; */
+  };
 
   render() {
     const { login } = this.state;

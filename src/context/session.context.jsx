@@ -25,37 +25,35 @@ export class SessionContextProvider extends Component {
     }
   }
 
-  // SIGN IN TUNED OFF BECAUSE NO MORE BACKEND GESTION
-
-  /* signIn = (mail, password, e) => {
+  signIn = (mail, password, e) => {
     e.preventDefault();
+    
     let infosUsers = {};
     infosUsers.mail = mail;
     infosUsers.password = password;
 
-    fetch('http://18.191.118.60:80/signIn.php', {
+    fetch('https://bastienpaquier.masselab.com/signIn.php', {
       method: 'POST',
       body: JSON.stringify(infosUsers),
     })
-      .then((response) => {
-        return response.json();
-      })
+      .then(response =>  response.json())
       .then((data) => {
+        console.log(data);
         if (data.success) {
           let userloged = {
-            id: data.infos[0].id,
-            name: data.infos[0].name,
-            lastName: data.infos[0].last_name,
-            pseudo: data.infos[0].pseudo,
-            mail: data.infos[0].mail,
-            signUpDate: data.infos[0].date_inscription,
+            id: data.user.id,
+            name: data.user.name,
+            lastName: data.user.last_name,
+            pseudo: data.user.pseudo,
+            mail: data.user.mail,
+            signUpDate: data.user.date_inscription,
           };
           this.setState({ user: userloged });
           localStorage.setItem('user', JSON.stringify(userloged));
 
-          let userId = {};
+          /* let userId = {};
           userId.id = data.infos[0].id;
-          fetch('http://18.191.118.60:80/getMoviesList.php', {
+           fetch('http://18.191.118.60:80/getMoviesList.php', {
             method: 'POST',
             body: JSON.stringify(userId),
           })
@@ -71,50 +69,46 @@ export class SessionContextProvider extends Component {
                 this.setState({ movieList: movieList });
                 localStorage.setItem('moviesList', JSON.stringify(movieList));
               }
-            });
+            }); */ 
         } else {
           this.setState({ wrongLogin: true });
-        }
+        } 
       });
-  }; */
+  };
 
-  signUp = (name, firstName, mail, password, pseudo, e) => {
+  signUp = (lastName, firstName, mail, password, pseudo, e) => {
     e.preventDefault();
 
     let data = {};
 
-    data.lastName = name;
-    data.name = firstName;
+    data.lastName = lastName;
+    data.firstName = firstName;
     data.mail = mail;
     data.password = password;
     data.pseudo = pseudo;
-    data.signUpDate = new Date();
-    this.setState({ user: data });
-    localStorage.setItem('user', JSON.stringify(data));
 
-    /* fetch('http://18.191.118.60:80/signUp.php', {
+    fetch('https://bastienpaquier.masselab.com/signUp.php', {
       method: 'POST',
       body: JSON.stringify(data),
     })
-      .then((response) => {
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
-        if (data.message) {
+        console.log(data);
+        if (data.mailExist) {
           this.setState({ mailAlreadyExist: true });
         } else {
           let userLoged = {
-            id: data.user[0].id,
-            name: data.user[0].name,
-            lastName: data.user[0].last_name,
-            pseudo: data.user[0].pseudo,
-            mail: data.user[0].mail,
-            signUpDate: data.user[0].date_inscription,
+            id: data.user.id,
+            name: data.user.name,
+            lastName: data.user.last_name,
+            pseudo: data.user.pseudo,
+            mail: data.user.mail,
+            signUpDate: data.user.date_inscription,
           };
           this.setState({ user: userLoged });
           localStorage.setItem('user', JSON.stringify(userLoged));
         }
-      }); */
+      });
   };
 
   changeWarningStates = () => {

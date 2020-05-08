@@ -18,9 +18,9 @@ export default class SignIn extends React.Component {
     this.setState({ passwordValue: e.target.value });
   };
 
-  /* handelClick = () => {
+  handelClick = () => {
     this.props.click();
-  }; */
+  };
 
   render() {
     const { mailValue, passwordValue } = this.state;
@@ -33,9 +33,10 @@ export default class SignIn extends React.Component {
               <div className='registerbox__nav--signin'>
                 <p>Se connecter</p>
               </div>
+
               <div
                 className='registerbox__nav--signup'
-                /* onClick={() => this.handelClick()} */
+                onClick={() => this.handelClick()}
               >
                 <p>Créer un compte</p>
               </div>
@@ -73,7 +74,9 @@ export default class SignIn extends React.Component {
               </Link>
             </form>
             {wrongLogin && (
-              <div className='wrongLogin'>Email ou mot de passe invalides</div>
+              <div className='wrongLogin'>
+                Un de vos identifiants est invalide
+              </div>
             )}
           </div>
         )}

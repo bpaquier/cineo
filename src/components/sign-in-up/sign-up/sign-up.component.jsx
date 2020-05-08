@@ -18,7 +18,7 @@ export default class SignUp extends React.Component {
       isPasswordvalid: true,
     };
   }
-  /* handleClick = () => this.props.click(); */
+  handleClick = () => this.props.click();
 
   handleChangeMail = (e) => {
     this.setState({ mailValue: e.target.value });
@@ -85,7 +85,7 @@ export default class SignUp extends React.Component {
             <div className='signup__nav'>
               <div
                 className='signup__nav--signin'
-                /* onClick={() => this.handleClick()} */
+                onClick={() => this.handleClick()}
               >
                 <p>Se connecter</p>
               </div>
