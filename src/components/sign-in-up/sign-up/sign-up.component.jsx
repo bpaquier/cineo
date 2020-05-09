@@ -148,7 +148,7 @@ export default class SignUp extends React.Component {
                       required
                     ></input>
                     {!isMailValid && (
-                      <div class='warning'>Adresse mail incorrecte</div>
+                      <div className='warning'>Adresse mail incorrecte</div>
                     )}
                   </div>
                   <div className='form__right__emailconf form__component'>

@@ -94,7 +94,7 @@ export default class playerPage extends Component {
                           <Player source={Video} />
                         </div>
                         <div className='player-page__description description'>
-                          <div class='description__title'>
+                          <div className='description__title'>
                             <h1>
                               {data.filter((el) => el.imdbID === id)[0].title}
                             </h1>
@@ -166,23 +166,23 @@ export default class playerPage extends Component {
                                 <path
                                   d='M256 144H296C306.609 144 316.783 148.214 324.284 155.716C331.786 163.217 336 173.391 336 184V392C336 402.609 331.786 412.783 324.284 420.284C316.783 427.786 306.609 432 296 432H56C45.3913 432 35.2172 427.786 27.7157 420.284C20.2143 412.783 16 402.609 16 392V184C16 173.391 20.2143 163.217 27.7157 155.716C35.2172 148.214 45.3913 144 56 144H96'
                                   stroke='black'
-                                  stroke-width='32'
-                                  stroke-linecap='round'
-                                  stroke-linejoin='round'
+                                  strokeWidth='32'
+                                  strokeLinecap='round'
+                                  strokeLinejoin='round'
                                 />
                                 <path
                                   d='M96 240L176 320L256 240'
                                   stroke='black'
-                                  stroke-width='32'
-                                  stroke-linecap='round'
-                                  stroke-linejoin='round'
+                                  strokeWidth='32'
+                                  strokeLinecap='round'
+                                  strokeLinejoin='round'
                                 />
                                 <path
                                   d='M176 16V304'
                                   stroke='black'
-                                  stroke-width='32'
-                                  stroke-linecap='round'
-                                  stroke-linejoin='round'
+                                  strokeWidth='32'
+                                  strokeLinecap='round'
+                                  strokeLinejoin='round'
                                 />
                               </svg>
                             </div>

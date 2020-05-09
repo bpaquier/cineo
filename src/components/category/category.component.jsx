@@ -40,7 +40,6 @@ export default class genreSelection extends Component {
           ref={this.categoryButtonRef}
         >
           <div className='category__button__text'>Genres</div>
-          <arrowImage />
         </button>
         {isOpen && (
           <ul className='category__list'>

@@ -11,6 +11,7 @@ export class SessionContextProvider extends Component {
       wrongLogin: false,
       movieList: null,
       isNewMailValid: true,
+      apUrl: 'https://bastienpaquier.masselab.com',
     };
   }
 
@@ -25,55 +26,45 @@ export class SessionContextProvider extends Component {
     }
   }
 
+  connectionToApi = (file, data) => {
+    return fetch(`${this.state.apUrl}${file}`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }).then((rep) => rep.json());
+  };
+
   signIn = (mail, password, e) => {
     e.preventDefault();
-    
+
     let infosUsers = {};
     infosUsers.mail = mail;
     infosUsers.password = password;
 
-    fetch('https://bastienpaquier.masselab.com/signIn.php', {
-      method: 'POST',
-      body: JSON.stringify(infosUsers),
-    })
-      .then(response =>  response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.success) {
-          let userloged = {
-            id: data.user.id,
-            name: data.user.name,
-            lastName: data.user.last_name,
-            pseudo: data.user.pseudo,
-            mail: data.user.mail,
-            signUpDate: data.user.date_inscription,
-          };
-          this.setState({ user: userloged });
-          localStorage.setItem('user', JSON.stringify(userloged));
+    this.connectionToApi('/signIn.php', infosUsers).then((data) => {
+      if (data.success) {
+        let userLoged = { ...data.user };
 
-          /* let userId = {};
-          userId.id = data.infos[0].id;
-           fetch('http://18.191.118.60:80/getMoviesList.php', {
-            method: 'POST',
-            body: JSON.stringify(userId),
-          })
-            .then((response) => {
-              return response.json();
-            })
-            .then((data) => {
-              if (data.length > 0) {
-                let movieList = [];
-                data.forEach((movie) => {
-                  movieList.push(movie.id_movie);
-                });
-                this.setState({ movieList: movieList });
-                localStorage.setItem('moviesList', JSON.stringify(movieList));
-              }
-            }); */ 
-        } else {
-          this.setState({ wrongLogin: true });
-        } 
-      });
+        this.setState({ user: userLoged });
+        localStorage.setItem('user', JSON.stringify(userLoged));
+
+        //get favorite movies
+        let userId = {};
+        userId.id = data.user.id;
+        this.connectionToApi('/getMoviesList.php', userId).then((data) => {
+          console.log(data);
+          if (data.movies) {
+            let movieList = [];
+            data.movies.forEach((movie) => {
+              movieList.push(parseInt(movie.id_movie));
+            });
+            this.setState({ movieList: movieList });
+            localStorage.setItem('moviesList', JSON.stringify(movieList));
+          }
+        });
+      } else {
+        this.setState({ wrongLogin: true });
+      }
+    });
   };
 
   signUp = (lastName, firstName, mail, password, pseudo, e) => {
@@ -87,28 +78,15 @@ export class SessionContextProvider extends Component {
     data.password = password;
     data.pseudo = pseudo;
 
-    fetch('https://bastienpaquier.masselab.com/signUp.php', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.mailExist) {
-          this.setState({ mailAlreadyExist: true });
-        } else {
-          let userLoged = {
-            id: data.user.id,
-            name: data.user.name,
-            lastName: data.user.last_name,
-            pseudo: data.user.pseudo,
-            mail: data.user.mail,
-            signUpDate: data.user.date_inscription,
-          };
-          this.setState({ user: userLoged });
-          localStorage.setItem('user', JSON.stringify(userLoged));
-        }
-      });
+    this.connectionToApi('/signUp.php', data).then((data) => {
+      if (data.mailExist) {
+        this.setState({ mailAlreadyExist: true });
+      } else {
+        let userLoged = { ...data.user };
+        this.setState({ user: userLoged });
+        localStorage.setItem('user', JSON.stringify(userLoged));
+      }
+    });
   };
 
   changeWarningStates = () => {
@@ -144,67 +122,42 @@ export class SessionContextProvider extends Component {
   };
 
   addMovie = (filmId) => {
-    let moviesList;
-    if (localStorage.getItem('moviesList')) {
-      moviesList = [...JSON.parse(localStorage.getItem('moviesList'))];
-    } else {
-      moviesList = [];
-    }
-
-    let newList = [...moviesList, filmId];
-
-    this.setState({ movieList: newList });
-    localStorage.setItem('moviesList', JSON.stringify(newList));
-
-    /* let data = {};
+    let data = {};
     data.idUser = this.state.user.id;
-    data.idFilm = filmId.toString();
+    data.idMovie = filmId;
 
-    fetch('http://18.191.118.60:80/addFilm.php', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        let movieList = [];
-        data.forEach((movie) => {
-          movieList.push(movie.id_movie);
-        });
-        this.setState({ movieList: movieList });
-        localStorage.setItem('moviesList', JSON.stringify(movieList));
-      }); */
+    this.connectionToApi('/addMovie.php', data).then((data) => {
+      let movieList = [];
+      data.movies.forEach((movie) => {
+        movieList.push(parseInt(movie.id_movie));
+      });
+      this.setState({ movieList: movieList });
+      localStorage.setItem('moviesList', JSON.stringify(movieList));
+    });
   };
 
   deleteMovie = (id_movie) => {
-    const moviesList = [...this.state.movieList];
+    /* const moviesList = [...this.state.movieList];
     const index = moviesList.findIndex((el) => el === id_movie);
     moviesList.splice(index, 1);
 
     this.setState({ movieList: moviesList });
     localStorage.setItem('moviesList', JSON.stringify(moviesList));
-
-    /* let data = {};
-    data.movieId = id_movie.toString();
+ */
+    let data = {};
+    data.movieId = id_movie;
     data.userId = this.state.user.id;
-
-    fetch('http://18.191.118.60:80/deleteMovie.php', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        let movieList = [];
-        data.forEach((movie) => {
-          movieList.push(movie.id_movie);
+    this.connectionToApi('/deleteMovie.php', data).then((data) => {
+      console.log(data);
+      let movieList = [];
+      if (data.movies !== null) {
+        data.movies.forEach((movie) => {
+          movieList.push(parseInt(movie.id_movie));
         });
-        this.setState({ movieList: movieList });
-        localStorage.setItem('moviesList', JSON.stringify(movieList));
-      }); */
+      }
+      this.setState({ movieList: movieList });
+      localStorage.setItem('moviesList', JSON.stringify(movieList));
+    });
   };
 
   changePseudo = (pseudo) => {

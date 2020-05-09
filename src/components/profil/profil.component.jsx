@@ -110,7 +110,7 @@ export default class Profil extends React.Component {
                       <div className='profil__information--right'>
                         <div className='profil__pseudo'>
                           <p>Pseudo</p>
-                          <p class='pseudo'>{user.pseudo}</p>
+                          <p className='pseudo'>{user.pseudo}</p>
                           {!pseudoFormVisible && (
                             <Edit
                               className='edit'
@@ -143,7 +143,7 @@ export default class Profil extends React.Component {
                             </form>
                           )}
                         </div>
-                        <p>{`Abonné depuis le ${user.signUpDate}`}</p>
+                        <p>{`Abonné depuis le ${user.date_inscription}`}</p>
                         <div className='profil__stat'>
                           <div>Voir mes stats</div>
                           <Arrow className='profil__arrow' />
@@ -162,7 +162,7 @@ export default class Profil extends React.Component {
                     <div className='second__information'>
                       <div className='name'>
                         <p>Nom</p>
-                        <p className='information__user'>{user.lastName}</p>
+                        <p className='information__user'>{user.last_name}</p>
                         {!nameFormVisible && (
                           <Edit
                             className='edit'
