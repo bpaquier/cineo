@@ -1,4 +1,5 @@
 import React, { createContext, Component } from 'react';
+import { findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
 
 const SessionContext = createContext({});
 
@@ -94,25 +95,13 @@ export class SessionContextProvider extends Component {
   };
 
   deleteUser = () => {
-    this.setState({ user: null, movieList: null });
+    let data = {};
+    data.id = this.state.user.id;
+
+    this.connectionToApi('/deleteUser.php', data);
+    this.setState({ user: null });
     localStorage.removeItem('user');
     localStorage.removeItem('moviesList');
-
-    /* let data = {};
-    data.mail = this.state.user.mail;
-
-    fetch('http://18.191.118.60:80/deleteUser.php', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        this.setState({ user: null });
-        localStorage.removeItem('user');
-        localStorage.removeItem('moviesList');
-      }); */
   };
 
   logOut = () => {
@@ -137,13 +126,6 @@ export class SessionContextProvider extends Component {
   };
 
   deleteMovie = (id_movie) => {
-    /* const moviesList = [...this.state.movieList];
-    const index = moviesList.findIndex((el) => el === id_movie);
-    moviesList.splice(index, 1);
-
-    this.setState({ movieList: moviesList });
-    localStorage.setItem('moviesList', JSON.stringify(moviesList));
- */
     let data = {};
     data.movieId = id_movie;
     data.userId = this.state.user.id;
@@ -161,134 +143,62 @@ export class SessionContextProvider extends Component {
   };
 
   changePseudo = (pseudo) => {
-    const initialUser = JSON.parse(localStorage.getItem('user'));
-    initialUser.pseudo = pseudo;
-
-    localStorage.setItem('user', JSON.stringify(initialUser));
-    this.setState({ user: initialUser });
-    /* let data = {};
+    let data = {};
     data.id = this.state.user.id;
-    data.value = pseudo;
+    data.pseudo = pseudo;
 
-    fetch('http://18.191.118.60:80/changePseudo.php', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        let userLoged = {
-          id: data[0].id,
-          name: data[0].name,
-          lastName: data[0].last_name,
-          pseudo: data[0].pseudo,
-          mail: data[0].mail,
-          signUpDate: data[0].date_inscription,
-        };
-        this.setState({ user: userLoged });
-        localStorage.setItem('user', JSON.stringify(userLoged));
-      }); */
+    this.connectionToApi('/changePseudo.php', data).then((data) => {
+      let userLoged = { ...data.user };
+      this.setState({ user: userLoged });
+      localStorage.setItem('user', JSON.stringify(userLoged));
+    });
   };
 
   changeLastName = (lastName) => {
-    const initialUser = JSON.parse(localStorage.getItem('user'));
-    initialUser.lastName = lastName;
-
-    localStorage.setItem('user', JSON.stringify(initialUser));
-    this.setState({ user: initialUser });
-    /* let data = {};
+    let data = {};
     data.id = this.state.user.id;
-    data.value = lastName;
+    data.lastName = lastName;
 
-    fetch('http://18.191.118.60:80/changeLastName.php', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        let userLoged = {
-          id: data[0].id,
-          name: data[0].name,
-          lastName: data[0].last_name,
-          pseudo: data[0].pseudo,
-          mail: data[0].mail,
-          signUpDate: data[0].date_inscription,
-        };
-        this.setState({ user: userLoged });
-        localStorage.setItem('user', JSON.stringify(userLoged));
-      }); */
+    this.connectionToApi('/changeLastName.php', data).then((data) => {
+      let userLoged = { ...data.user };
+      this.setState({ user: userLoged });
+      localStorage.setItem('user', JSON.stringify(userLoged));
+    });
   };
 
   changeFirstName = (firstName) => {
-    const initialUser = JSON.parse(localStorage.getItem('user'));
-    initialUser.name = firstName;
-
-    localStorage.setItem('user', JSON.stringify(initialUser));
-    this.setState({ user: initialUser });
-    /* let data = {};
+    let data = {};
     data.id = this.state.user.id;
-    data.value = firstName;
+    data.firstName = firstName;
 
-    fetch('http://18.191.118.60:80/changeFirstName.php', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        let userLoged = {
-          id: data[0].id,
-          name: data[0].name,
-          lastName: data[0].last_name,
-          pseudo: data[0].pseudo,
-          mail: data[0].mail,
-          signUpDate: data[0].date_inscription,
-        };
-        this.setState({ user: userLoged });
-        localStorage.setItem('user', JSON.stringify(userLoged));
-      }); */
+    this.connectionToApi('/changeFirstName.php', data).then((data) => {
+      let userLoged = { ...data.user };
+      this.setState({ user: userLoged });
+      localStorage.setItem('user', JSON.stringify(userLoged));
+    });
   };
 
   changeMail = (mail) => {
-    const initialUser = JSON.parse(localStorage.getItem('user'));
-    initialUser.mail = mail;
+    /*  const initialUser = JSON.parse(localStorage.getItem('user'));
+    initialUser.mail = mail; */
 
     if (/^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,6}$/i.test(mail)) {
-      localStorage.setItem('user', JSON.stringify(initialUser));
-      this.setState({ user: initialUser });
-
+      /* localStorage.setItem('user', JSON.stringify(initialUser));
+      this.setState({ user: initialUser }); */
       this.setState({ isNewMailValid: true });
+
+      let data = {};
+      data.id = this.state.user.id;
+      data.mail = mail;
+
+      this.connectionToApi('/changeMail.php', data).then((data) => {
+        let userLoged = { ...data.user };
+        this.setState({ user: userLoged });
+        localStorage.setItem('user', JSON.stringify(userLoged));
+      });
     } else {
       this.setState({ isNewMailValid: false });
     }
-    /* let data = {};
-    data.id = this.state.user.id;
-    data.value = mail;
-
-    fetch('http://18.191.118.60:80/changeMail.php', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        let userLoged = {
-          id: data[0].id,
-          name: data[0].name,
-          lastName: data[0].last_name,
-          pseudo: data[0].pseudo,
-          mail: data[0].mail,
-          signUpDate: data[0].date_inscription,
-        };
-        this.setState({ user: userLoged });
-        localStorage.setItem('user', JSON.stringify(userLoged));
-      }); */
   };
 
   render() {

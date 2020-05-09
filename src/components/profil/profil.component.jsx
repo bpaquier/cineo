@@ -25,7 +25,6 @@ export default class Profil extends React.Component {
 
   hideAlert = () => {
     this.setState({ alertVisible: false });
-    console.log('click1');
   };
 
   showAlert = () => {
