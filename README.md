@@ -1,6 +1,8 @@
 # CINEO
 
-**Work in progress**
+Student project,
+full react.js
+home made API using php
 
 ## Groupe Members
 
